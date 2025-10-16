@@ -1,0 +1,14 @@
+
+<!DOCTYPE html>
+<html>
+<body>
+	<h1 th:text="${message}"></h1>
+	<div th:utext="${hello}"></div>
+	<div th:if="${isLoggedIn}">
+	        <h4>In the blood-soaked Kolar Gold Fields, Rocky's name strikes fear into his foes, while the government sees him as a threat to law and order. Rocky must battle threats from all sides for unchallenged supremacy.</h4>
+	    </div>
+	    <div th:if="${!isLoggedIn}">
+	        <h1>Please log in to read the full movie description.</h1>
+	    </div>
+</body>
+</html>
