@@ -1,0 +1,17 @@
+<html>
+<body>
+<table border="1">
+   <tr>
+     <th>Name</th>
+     <th>Description</th>
+     <th>Price</th>
+   </tr>
+   <tr th:each="product : ${products}">
+	<td th:text="${product.book}"></td>
+	<td th:text="${product.author}"></td>
+	<td th:text="${product.price}"></td>
+
+   </tr>
+</table>
+</body>
+</html>
