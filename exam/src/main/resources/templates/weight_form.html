@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${weightEntry.id != null} ? 'Edit weight' : 'Add weight'">Weight Form</title>
+</head>
+<body>
+<h1 th:text="${weightEntry.id != null} ? 'Edit weight' : 'Add weight'"></h1>
+
+<form th:action="${weightEntry.id != null} ? @{/weights/edit/{id}(id=${weightEntry.id})} : @{/weights/add}" th:object="${weightEntry}" method="post">
+    <!-- If adding, date will be set to today on backend. If editing, allow date change -->
+    <div>
+        <label>Weight (kg):</label>
+        <input type="number" step="0.1" th:field="*{weight}" required />
+    </div>
+    <div>
+        <label>Date:</label>
+        <input type="date" th:field="*{date}" />
+        <small>If blank on add it will use today's date.</small>
+    </div>
+    <div>
+        <button type="submit">Save</button>
+        <a th:href="@{/weights}">Cancel</a>
+    </div>
+</form>
+
+</body>
+</html>

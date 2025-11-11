@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Your Weights</title>
+</head>
+<body>
+<h1>Your Weights</h1>
+
+<div>
+    <a th:href="@{/weights/add}">Add weight for today</a> |
+    <a th:href="@{/logout}">Logout</a>
+</div>
+
+<!-- Flash messages -->
+<div th:if="${success}">
+    <p th:text="${success}" style="color:green"></p>
+</div>
+<div th:if="${error}">
+    <p th:text="${error}" style="color:red"></p>
+</div>
+
+<!-- Date range search -->
+<form th:action="@{/weights}" method="get">
+    <label>From:</label>
+    <input type="date" name="start" th:value="${start}" />
+    <label>To:</label>
+    <input type="date" name="end" th:value="${end}" />
+    <button type="submit">Search</button>
+    <a th:href="@{/weights}">Clear</a>
+</form>
+
+<!-- If range results -->
+<div th:if="${isRange}">
+    <h2>Results between <span th:text="${start}"></span> and <span th:text="${end}"></span></h2>
+    <table border="1">
+        <thead>
+            <tr><th>Date</th><th>Weight</th><th>Added at</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+            <tr th:each="w : ${weights}">
+                <td th:text="${w.date}"></td>
+                <td th:text="${w.weight}"></td>
+                <td th:text="${#dates.format(w.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td>
+                    <a th:href="@{'/weights/edit/' + ${w.id}}">Edit</a>
+                    <form th:action="@{'/weights/delete/' + ${w.id}}" method="post" style="display:inline">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- If paginated -->
+<div th:if="${!isRange}">
+    <table border="1">
+        <thead>
+            <tr><th>Date</th><th>Weight</th><th>Added at</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+            <tr th:each="w : ${weightsPage.content}">
+                <td th:text="${w.date}"></td>
+                <td th:text="${w.weight}"></td>
+                <td th:text="${#dates.format(w.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td>
+                    <a th:href="@{'/weights/edit/' + ${w.id}}">Edit</a>
+                    <form th:action="@{'/weights/delete/' + ${w.id}}" method="post" style="display:inline">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- pagination controls -->
+    <div>
+        <span th:if="${weightsPage.totalPages > 1}">
+            <a th:if="${currentPage > 0}" th:href="@{/weights(page=${currentPage - 1})}">Prev</a>
+            <span> Page <span th:text="${currentPage + 1}"></span> of <span th:text="${weightsPage.totalPages}"></span> </span>
+            <a th:if="${currentPage + 1 < weightsPage.totalPages}" th:href="@{/weights(page=${currentPage + 1})}">Next</a>
+        </span>
+    </div>
+</div>
+
+</body>
+</html>
